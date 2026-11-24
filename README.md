@@ -52,7 +52,7 @@ Drawings are saved in each browser (local storage) and can be exported as `.exca
 
 **Versions.** Images are pinned by digest in `services/excalidraw/Dockerfile` (web app and Caddy) and in the Excalidraw Room service source. Upstream publishes the web app image without version tags; to upgrade, replace the digest with a newer `excalidraw/excalidraw:latest` digest and redeploy.
 
-**Resources.** About 0.05–0.1 GB RAM idle in total (gateway ~0.02 GB, room server ~0.05 GB), well under $1 per month. Runs on the Trial plan.
+**Resources.** Measured idle on Railway: gateway 0.07 GB, room server 0.06 GB; about 0.13 GB in total, roughly $1.3 per month. Runs on the Trial and Free plans.
 
 **License.** Excalidraw and Excalidraw Room are MIT-licensed. This is a community template, not affiliated with Excalidraw.
 
