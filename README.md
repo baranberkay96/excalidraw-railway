@@ -1,5 +1,7 @@
 # Deploy and Host Excalidraw with Railway
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/excalidraw-whiteboard-with-private-colla?referralCode=20H68q)
+
 Excalidraw is an open-source virtual whiteboard for sketching hand-drawn-style diagrams, wireframes and flowcharts, with shape libraries, export to PNG/SVG and live collaboration. This template runs the Excalidraw web app behind a password together with your own collaboration server, so live sessions do not go through excalidraw.com's room server.
 
 ## About Hosting Excalidraw
