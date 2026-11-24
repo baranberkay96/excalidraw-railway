@@ -1,0 +1,107 @@
+{
+  "name": "Excalidraw Whiteboard with Private Collaboration Server",
+  "idSeed": "Excalidraw Whiteboard with Private Collaboration Server",
+  "description": "Hand-drawn whiteboard with live collab via your own room server, password.",
+  "category": "Other",
+  "tags": [
+    "excalidraw",
+    "whiteboard",
+    "diagrams",
+    "collaboration",
+    "drawing",
+    "self-hosted"
+  ],
+  "image": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/excalidraw.svg",
+  "upstream": {
+    "repo": "excalidraw/excalidraw",
+    "version": "web app image of 2026-05-06 (after v0.18.1)",
+    "license": "MIT",
+    "images": {
+      "excalidraw": "excalidraw/excalidraw@sha256:f7ee194addd607bf831d2af0f0a34463dd4225e426cf35199ef0b12a803398e9 (latest, pushed 2026-05-06)",
+      "excalidraw-room": "excalidraw/excalidraw-room:sha-03ff435@sha256:2fe999f9be4379e3ee282fc45d75d84a691a6383dde33544514cc395287c7a70 (2023-12-15)",
+      "caddy": "caddy:2.10.2-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d"
+    },
+    "checked": "2026-11-24"
+  },
+  "services": {
+    "Excalidraw": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/excalidraw.svg",
+      "source": {
+        "repo": "baranberkay96/excalidraw-railway",
+        "rootDirectory": "/services/excalidraw"
+      },
+      "startCommand": null,
+      "preDeployCommand": null,
+      "healthcheckPath": "/_gateway/health",
+      "healthcheckTimeout": 300,
+      "restartPolicyType": "ALWAYS",
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "publicDomain": true,
+      "targetPort": 8080,
+      "tcpProxy": null,
+      "volume": null,
+      "variables": {
+        "PORT": {
+          "defaultValue": "8080",
+          "description": "Port of the Excalidraw gateway.",
+          "required": false
+        },
+        "EXCALIDRAW_USERNAME": {
+          "defaultValue": "excalidraw",
+          "description": "User name for the site's password prompt.",
+          "required": false
+        },
+        "EXCALIDRAW_PASSWORD": {
+          "defaultValue": "${{secret(24, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Password for the site (12-72 characters). Share it with the people you draw with.",
+          "required": false
+        },
+        "EXCALIDRAW_PUBLIC": {
+          "defaultValue": "false",
+          "description": "true: no password (anyone with the URL can use the app and your room server).",
+          "required": false
+        },
+        "ROOM_UPSTREAM": {
+          "defaultValue": "${{Excalidraw Room.RAILWAY_PRIVATE_DOMAIN}}:${{Excalidraw Room.PORT}}",
+          "description": "Private address of the collaboration room server.",
+          "required": false
+        }
+      }
+    },
+    "Excalidraw Room": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/excalidraw.svg",
+      "source": {
+        "image": "excalidraw/excalidraw-room:sha-03ff435@sha256:2fe999f9be4379e3ee282fc45d75d84a691a6383dde33544514cc395287c7a70"
+      },
+      "startCommand": null,
+      "preDeployCommand": null,
+      "healthcheckPath": "/",
+      "healthcheckTimeout": 300,
+      "restartPolicyType": "ALWAYS",
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "publicDomain": false,
+      "targetPort": null,
+      "tcpProxy": null,
+      "volume": null,
+      "variables": {
+        "PORT": {
+          "defaultValue": "3002",
+          "description": "Port of the collaboration server (private network only).",
+          "required": false
+        },
+        "NODE_ENV": {
+          "defaultValue": "production",
+          "description": "Run in production mode.",
+          "required": false
+        },
+        "CORS_ORIGIN": {
+          "defaultValue": "https://${{Excalidraw.RAILWAY_PUBLIC_DOMAIN}}",
+          "description": "Origin allowed to open sockets (the gateway proxies same-origin).",
+          "required": false
+        }
+      }
+    }
+  }
+}
